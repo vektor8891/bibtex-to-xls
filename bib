@@ -3,12 +3,12 @@
 import bibtexparser
 import pandas as pd
 
-with open("/home/vszabo/Dropbox/Backup/konyvek.bib") as bibtex_file:
+with open("/home/vszabo/Dropbox/Backup_shared/konyvek.bib") as bibtex_file:
     bib_database = bibtexparser.load(bibtex_file)
 
 df = pd.DataFrame(bib_database.entries)
 books = df[['author', 'title', 'year', 'isbn', 'url']]
 books_sorted = books.sort_values(by=['author', 'title'])
-books_sorted.to_excel("/home/vszabo/Dropbox/Backup/konyvek.xls", index=False, engine='xlsxwriter')
+books_sorted.to_excel("/home/vszabo/Dropbox/Backup_shared/konyvek.xls", index=False, engine='xlsxwriter')
 
 print("File converted successfully.")
