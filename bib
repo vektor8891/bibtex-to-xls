@@ -1,12 +1,23 @@
 #!/usr/bin/env python3
 
 import bibtexparser
+
 import pandas as pd
 
-with open("/home/vszabo/Dropbox/Backup_shared/konyvek.bib") as bibtex_file:
-    bib_database = bibtexparser.load(bibtex_file)
 
-df = pd.DataFrame(bib_database.entries)
+def parse_bibtex_file(file_path):
+    try:
+        with open(file_path) as bibtex_file:
+            bib_database = bibtexparser.load(bibtex_file)
+        return bib_database.entries
+    except Exception as e:
+        print(f"Error occurred while parsing the BibTeX file: {str(e)}")
+        return None
+
+
+file_path = "/home/vszabo/Dropbox/Backup_shared/konyvek.bib"
+entries = parse_bibtex_file(file_path)
+df = pd.DataFrame(entries)
 books = df[['author', 'title', 'year', 'isbn', 'url']]
 books_sorted = books.sort_values(by=['author', 'title'])
 books_sorted.to_excel("/home/vszabo/Dropbox/Backup_shared/konyvek.xls", index=False, engine='xlsxwriter')
