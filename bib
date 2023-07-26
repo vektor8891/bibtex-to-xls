@@ -10,5 +10,6 @@ df = pd.DataFrame(bib_database.entries)
 books = df[['author', 'title', 'year', 'isbn', 'url']]
 books_sorted = books.sort_values(by=['author', 'title'])
 books_sorted.to_excel("/home/vszabo/Dropbox/Backup_shared/konyvek.xls", index=False, engine='xlsxwriter')
+books_sorted.to_csv("/home/vszabo/Git/notes/_data/books.csv", index=False)
 
 print("File converted successfully.")
