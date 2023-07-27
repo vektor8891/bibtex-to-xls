@@ -16,9 +16,9 @@ books_sorted.to_excel("/home/vszabo/Dropbox/Backup_shared/konyvek.xls", index=Fa
 books_sorted.to_csv("/home/vszabo/Git/notes/_data/books.csv", index=False)
 
 # update repo
-folder_path = "/home/vszabo/PycharmProjects/bibtex-to-xls/"
+folder_path = "/home/vszabo/Git/notes/"
 remote_name = 'origin'
-branch_name = 'main'
+branch_name = 'master'
 subprocess.run(['git', 'fetch', remote_name], cwd=folder_path, check=True)
 local_commit = subprocess.run(['git', 'rev-parse', branch_name], cwd=folder_path,
                               stdout=subprocess.PIPE, text=True, check=True).stdout.strip()
