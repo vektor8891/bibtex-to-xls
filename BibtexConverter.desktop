@@ -1,6 +1,5 @@
 #!/usr/bin/env xdg-open
 [Desktop Entry]
-Encoding=UTF-8
 Name = Bibtex Converter
 Exec = /home/vszabo/PycharmProjects/bibtex-to-xls/bib
 Version = 1.0
@@ -8,4 +7,4 @@ Icon = /home/vszabo/PycharmProjects/bibtex-to-xls/book.png
 Path = /home/vszabo/PycharmProjects/bibtex-to-xls/
 Type = Application
 NoDisplay = false
-Categories = Utility;Application;
+Categories = Utility;
