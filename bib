@@ -1,30 +1,24 @@
 #!/usr/bin/env python3
 
-import bibtexparser
+import subprocess
+import tkinter.messagebox as m
 
+import bibtexparser
 import pandas as pd
 
-
-def parse_bibtex_file(file_path):
-    try:
-        with open(file_path) as bibtex_file:
-            bib_database = bibtexparser.load(bibtex_file)
-        return bib_database.entries
-    except Exception as e:
-        print(f"Error occurred while parsing the BibTeX file: {str(e)}")
-        return None
-
-
+# save list of books
 file_path = "/home/vszabo/Dropbox/Backup_shared/konyvek.bib"
-entries = parse_bibtex_file(file_path)
-df = pd.DataFrame(entries)
+with open(file_path) as bibtex_file:
+    bib_database = bibtexparser.load(bibtex_file)
+df = pd.DataFrame(bib_database.entries)
 books = df[['author', 'title', 'year', 'isbn', 'url']]
 books_sorted = books.sort_values(by=['author', 'title'])
 books_sorted.to_excel("/home/vszabo/Dropbox/Backup_shared/konyvek.xls", index=False, engine='xlsxwriter')
 books_sorted.to_csv("/home/vszabo/Git/notes/_data/books.csv", index=False)
 
-print("File converted successfully.")
-
-with open("/home/vszabo/Desktop/success.txt", 'w') as file:
-    file.write("success")
-
+# update repo
+folder_path = "/home/vszabo/Git/notes/"
+subprocess.run(['git', 'add', '.'], cwd=folder_path, check=True)
+subprocess.run(['git', 'commit', '-m', 'update books'], cwd=folder_path, check=True)
+subprocess.run(['git', 'push'], cwd=folder_path, check=True)
+m.showinfo("Alert", "List of books updated successfully.")
