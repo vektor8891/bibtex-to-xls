@@ -2,7 +2,6 @@
 
 import subprocess
 import tkinter.messagebox as m
-
 import bibtexparser
 import pandas as pd
 
@@ -17,8 +16,16 @@ books_sorted.to_excel("/home/vszabo/Dropbox/Backup_shared/konyvek.xls", index=Fa
 books_sorted.to_csv("/home/vszabo/Git/notes/_data/books.csv", index=False)
 
 # update repo
-folder_path = "/home/vszabo/Git/notes/"
-subprocess.run(['git', 'add', '.'], cwd=folder_path, check=True)
-subprocess.run(['git', 'commit', '-m', 'update books'], cwd=folder_path, check=True)
-subprocess.run(['git', 'push'], cwd=folder_path, check=True)
+folder_path = "/home/vszabo/PycharmProjects/bibtex-to-xls/"
+remote_name = 'origin'
+branch_name = 'main'
+subprocess.run(['git', 'fetch', remote_name], cwd=folder_path, check=True)
+local_commit = subprocess.run(['git', 'rev-parse', branch_name], cwd=folder_path,
+                              stdout=subprocess.PIPE, text=True, check=True).stdout.strip()
+remote_commit = subprocess.run(['git', 'rev-parse', f'{remote_name}/{branch_name}'],
+                               cwd=folder_path, stdout=subprocess.PIPE, text=True, check=True).stdout.strip()
+if local_commit != remote_commit:
+    subprocess.run(['git', 'add', '.'], cwd=folder_path, check=True)
+    subprocess.run(['git', 'commit', '-m', 'update books'], cwd=folder_path, check=True)
+    subprocess.run(['git', 'push'], cwd=folder_path, check=True)
 m.showinfo("Alert", "List of books updated successfully.")
