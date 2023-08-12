@@ -18,12 +18,17 @@ books_sorted.to_csv("/home/vszabo/Git/notes/_data/books.csv", index=False)
 
 # update repo
 folder_path = "/home/vszabo/Git/notes/"
+subprocess.run(['git', 'pull', '--auto'], cwd=folder_path, stdout=subprocess.PIPE, text=True, check=True).stdout.strip()
 status = subprocess.run(['git', 'status'], cwd=folder_path, stdout=subprocess.PIPE, text=True,
                         check=True).stdout.strip()
-if status.find("nothing to commit") != -1 & status.find("ahead of 'origin/master'") == -1:
-    m.showinfo("Alert", "List of books is already up-to-date.")
-else:
+
+# commit & push changes
+if status.find("Changes not staged for commit") != -1:
     subprocess.run(['git', 'add', '.'], cwd=folder_path, check=True)
     subprocess.run(['git', 'commit', '-m', 'update books'], cwd=folder_path, check=True)
-    subprocess.run(['git', 'push'], cwd=folder_path, check=True)
     m.showinfo("Alert", "List of books updated successfully.")
+if status.find("Your branch is ahead of") != -1:
+    subprocess.run(['git', 'push'], cwd=folder_path, check=True)
+    m.showinfo("Alert", "Updated list pushed to Github successfully.")
+if status.find("nothing to commit") != -1 & status.find("ahead of 'origin/master'") == -1:
+    m.showinfo("Alert", "List of books is already up-to-date.")
